@@ -1,0 +1,11 @@
+//Super Admin Credentials
+Email: aminsaidaliyi55@gmail.com
+Password: 12345678
+
+//Admin Credentials
+Email: aminsaidaliyi555@gmail.com
+Password: 12345678
+
+//Product Manager Credentials
+Email: aminsaidaliyi5555@gmail.com
+Password: 12345678

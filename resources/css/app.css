@@ -1,0 +1,77 @@
+/* General Body Styling */
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #ffffff;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.nav-link {
+    font-size: 1rem;
+}
+
+/* Sidebar Styling */
+#sidebar {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+}
+
+#sidebar h4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.nav-item {
+    margin-bottom: 0.5rem;
+}
+
+.nav-link {
+    color: #495057;
+}
+
+.nav-link.active {
+    color: #007bff;
+}
+
+.nav-link i {
+    margin-right: 0.5rem;
+}
+
+/* Main Content Styling */
+main {
+    margin-top: 1rem;
+}
+
+/* Profile Image Styling */
+img.img-fluid {
+    max-width: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Alert Styling */
+.alert {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Footer Links */
+footer p {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+footer a {
+    color: #007bff;
+    font-weight: bold;
+}
