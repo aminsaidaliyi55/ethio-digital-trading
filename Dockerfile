@@ -1,39 +1,21 @@
-# Use an official PHP image with Apache
 FROM php:8.2-apache
 
-# Install PHP extensions and system dependencies
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    git \
-    curl \
-    npm \
-    nodejs \
-    libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+# Enable PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Enable Apache mod_rewrite
+# Enable mod_rewrite
 RUN a2enmod rewrite
 
-# Set working directory
+# Set working directory inside container
 WORKDIR /var/www/html
 
-# Copy existing application directory contents
-COPY . .
+# Copy Laravel app contents
+COPY . /var/www/html
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Change the Apache config to serve from the public directory
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
-# Install Laravel dependencies
-RUN composer install --optimize-autoloader --no-dev && \
-    npm install && npm run build
+# Give permissions (optional but helpful)
+RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
-# Set correct permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Expose port 80
 EXPOSE 80
