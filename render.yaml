@@ -1,13 +1,15 @@
 services:
   - type: web
     name: ethio-digital-trading
-    env: php
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      php artisan key:generate
-      php artisan config:cache
-      php artisan route:cache
-    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    env: docker
+    plan: free
+    dockerfilePath: aa.Dockerfile
+    buildFilter:
+      paths:
+        - Dockerfile
+        - render.yaml
+        - .env
+        - composer.json
     envVars:
       - key: APP_NAME
         value: "Ethio Digital Trading"
@@ -25,16 +27,16 @@ services:
 
       - key: DB_CONNECTION
         value: mysql
-      - key: dpg-d0kfqiruibrs739gpvsg-a
+      - key: DB_HOST
         value: your-production-db-host
       - key: DB_PORT
-        value: 5432
+        value: 3306
       - key: DB_DATABASE
-        value: laravel10role
+        value: your-db-name
       - key: DB_USERNAME
-        value: root
+        value: your-db-username
       - key: DB_PASSWORD
-        value: oOzLnrmGnvFlSvqUrQZIcywOZrsOhK8Z
+        value: your-db-password
 
       - key: SESSION_DRIVER
         value: file
