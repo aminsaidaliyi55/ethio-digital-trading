@@ -3,7 +3,10 @@ services:
     name: ethio-digital-trading
     env: docker
     plan: free
-    dockerfilePath: aa.Dockerfile
+    dockerfilePath: ./Dockerfile
+    plan: free
+    ports:
+      - port: 9000
     buildFilter:
       paths:
         - Dockerfile
@@ -28,15 +31,15 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        value: your-production-db-host
+        value: dpg-d0kfqiruibrs739gpvsg-a
       - key: DB_PORT
-        value: 3306
+        value: 5432
       - key: DB_DATABASE
-        value: your-db-name
+        value: laravel10role
       - key: DB_USERNAME
-        value: your-db-username
+        value: root
       - key: DB_PASSWORD
-        value: your-db-password
+        value: oOzLnrmGnvFlSvqUrQZIcywOZrsOhK8Z
 
       - key: SESSION_DRIVER
         value: file
@@ -57,7 +60,7 @@ services:
       - key: MAIL_PORT
         value: 1025
       - key: MAIL_FROM_ADDRESS
-        value: hello@example.com
+        value: aminsaidaliyi55@gmail.com
       - key: MAIL_FROM_NAME
         value: "Ethio Digital Trading"
 

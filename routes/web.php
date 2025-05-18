@@ -139,9 +139,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/woredas/{zone}', [UserController::class, 'getWoredas']);
     Route::get('/kebeles/{woreda}', [UserController::class, 'getKebeles']);
 });
-Route::get('/', function () {
-    return view('welcome'); // or any view
-});
+
 
 Route::middleware('web')->group(function () {
  Route::get('lang/{locale}', function ($locale) {
