@@ -1,0 +1,8 @@
+Hostname: dpg-d0kfqiruibrs739gpvsg-a
+Port:5432
+Database:laravel10role
+Username:root
+Password:oOzLnrmGnvFlSvqUrQZIcywOZrsOhK8Z
+Internal Database URL:postgresql://root:oOzLnrmGnvFlSvqUrQZIcywOZrsOhK8Z@dpg-d0kfqiruibrs739gpvsg-a/laravel10role
+External Database URL:postgresql://root:oOzLnrmGnvFlSvqUrQZIcywOZrsOhK8Z@dpg-d0kfqiruibrs739gpvsg-a.oregon-postgres.render.com/laravel10role
+PSQL Command:PGPASSWORD=oOzLnrmGnvFlSvqUrQZIcywOZrsOhK8Z psql -h dpg-d0kfqiruibrs739gpvsg-a.oregon-postgres.render.com -U username root

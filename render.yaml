@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: ethio-digital-trading
+    env: php
+    buildCommand: |
+      composer install --no-dev
+      php artisan config:cache
+      php artisan migrate --force
+    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: base64:9AZCcSXSC+tsPRpprgivNMsPswi44Qr9wDj9u5+NI4c=
+      - key: APP_URL
+        value: https://ethio-digital-trading.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d0kfqiruibrs739gpvsg-a.oregon-postgres.render.com
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: laravel10role
+      - key: DB_USERNAME
+        value: root
+      - key: DB_PASSWORD
+        value: oOzLnrmGnvFlSvqUrQZIcywOZrsOhK8Z
