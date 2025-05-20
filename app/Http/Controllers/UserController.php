@@ -320,6 +320,7 @@ class UserController extends Controller
   $request->validate([
     'name' => 'required|string|max:255',
     'email' => 'required|email|unique:users,email',
+
 'password' => [
         'required',
         'string',
@@ -344,7 +345,9 @@ class UserController extends Controller
     if (Auth::guest() || Auth::user()->roles->isEmpty()) {
         // Assign 'Customer' role to the new user
         $user->assignRole('Customer');
-    } else {
+    } 
+    
+    else {
         // Otherwise, assign roles provided in the request
         $user->assignRole($request->roles);
     }

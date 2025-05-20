@@ -232,6 +232,9 @@ class ShopController extends Controller
     // Paginate the results
     $shops = $shopsQuery->paginate(10);
 
+    if ($user->hasRole('Owners') && $user->is_approved == 0) {
+        return redirect()->route('owner.payment')->with('error', 'You must submit payment and wait for approval before creating a shop.');
+    }
     // Return the view with all the necessary data
     return view('shops.index', compact('shops'));
 }
@@ -251,7 +254,7 @@ public function create()
     }
 
     // Check if the user has the right role to create a shop
-    if (!$user->hasRole('Super Admin') && !$user->hasRole('Admin') && !$user->hasRole('FederalAdmin') && !$user->hasRole('RegionalAdmin') && !$user->hasRole('ZoneAdmin') && !$user->hasRole('WoredaAdmin') && !$user->hasRole('KebeleAdmin')) {
+    if (!$user->hasRole('Super Admin') && !$user->hasRole('Admin') && !$user->hasRole('FederalAdmin') && !$user->hasRole('RegionalAdmin') && !$user->hasRole('ZoneAdmin') && !$user->hasRole('WoredaAdmin') && !$user->hasRole('KebeleAdmin')&& !$user->hasRole('Owners')) {
         return redirect()->route('shops.index')->with('error', 'You do not have the required roles to create a shop.');
     }
 
@@ -350,6 +353,10 @@ public function create()
 
         if ($user->hasRole('KebeleAdmin')) {
             return $query->where('kebele_id', $user->kebele_id)->get();
+        } 
+        
+        if ($user->hasRole('Owners')) {
+            return $query->where('shop->owner_d', $user->id)->get();
         }
 
         return collect(); // Return empty collection if no matching roles
@@ -370,14 +377,37 @@ public function create()
         $shop = Shop::with(['owner', 'kebele.woreda.zone.region.federal'])->findOrFail($id);
         return view('shops.show', compact('shop'));
     }
-    
+     private function authorizeView()
+    {
+        $user = Auth::user();
+        $shop = Shop::find(request()->route('shop'));
+
+        // Ensure only the owner or admins can view the product
+        if ($user->hasRole('Owners') && $shop->owner_id !== $user->id) {
+            return false; // Not authorized if the product doesn't belong to the owner
+        }
+
+        if (!$user->hasRole('Super Admin') && !$user->hasRole('Admin') &&
+            !$user->hasRole('FederalAdmin') && !$user->hasRole('RegionalAdmin') &&
+            !$user->hasRole('ZoneAdmin') && !$user->hasRole('WoredaAdmin') &&
+            !$user->hasRole('KebeleAdmin') && !$user->hasRole('Owners') && !$user->hasRole('Customer')) {
+            return false; // User does not have the necessary roles
+        }
+
+        return true;
+    }
+
+
+
+
    public function store(Request $request)
 {
     // Check if the authenticated user has the role 'KebeleAdmin'
-    if (!auth()->user()->hasRole('KebeleAdmin')) {
-        return redirect()->route('shops.index')
-            ->with('error', 'Only KebeleAdmin users are allowed to create shops.');
-    }
+    // if (!auth()->user()->hasRole('KebeleAdmin')) 
+    // {
+    //     return redirect()->route('shops.index')
+    //         ->with('error', 'Only KebeleAdmin users are allowed to create shops.');
+    // }
 
     // Validate the request data
     $request->validate([
@@ -402,6 +432,7 @@ public function create()
         $shop->total_capital = $request->total_capital;
         $shop->opening_hours = $request->opening_hours;
         $shop->category_id = $request->category_id;
+        $shop->status = 'inactive';
 
         // Handle shop license file upload
         if ($request->hasFile('shop_license')) {

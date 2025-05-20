@@ -59,6 +59,7 @@
                             @lang('messages.#')
                         </a>
                     </th>
+                    
                     <th scope="col">
                         <a href="{{ route('users.index', array_merge($query, ['sort_by' => 'name', 'sort_direction' => $toggleDirection])) }}">
                             @lang('messages.Name')
@@ -70,6 +71,9 @@
                         </a>
                     </th>
                     <th scope="col">@lang('messages.Roles')</th>
+                    <th scope="col">@lang('messages.Payment Status')</th>
+<th scope="col">@lang('messages.Payment Proof')</th>
+
                     <th scope="col">@lang('messages.Admin/User')</th>
                     <th scope="col">
                         <a href="{{ route('users.index', array_merge($query, ['sort_by' => 'region_id', 'sort_direction' => $toggleDirection])) }}">
@@ -110,6 +114,27 @@
                                 <span class="text-muted">@lang('messages.Has No Roles')</span>
                             @endforelse
                         </td>
+                        <td>
+    @if ($user->hasRole('Owners'))
+        @if ($user->is_approved)
+            <span class="badge bg-success">@lang('messages.Approved')</span>
+        @else
+            <span class="badge bg-warning">@lang('messages.Pending')</span>
+        @endif
+    @else
+        <span class="text-muted">—</span>
+    @endif
+</td>
+
+<td>
+    @if ($user->hasRole('Owners') && $user->payment_screenshot)
+        <img src="{{ asset($user->payment_screenshot) }}" alt="Payment Screenshot" width="200">
+    @else
+        <span class="text-muted">—Not important</span>
+    @endif
+</td>
+
+
                         <td>
                             @if($user->hasAnyRole(['Super Admin', 'Admin', 'FederalAdmin', 'RegionalAdmin', 'ZoneAdmin', 'WoredaAdmin', 'KebeleAdmin']))
                                 <span class="text-muted">@lang('messages.Admin')</span>

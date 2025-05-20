@@ -53,16 +53,25 @@
                     <input type="text" class="form-control" id="name" name="name" required>
                 </div>
 
-                <!-- Owners Select Field -->
-                <div class="mb-3">
-                    <label for="owner_id" class="form-label">Owners</label>
-                    <select class="form-select" id="owner_id" name="owner_id" required>
-                        <option value="">Select Owners</option>
-                        @foreach($owners as $owner)
-                            <option value="{{ $owner->id }}">{{ $owner->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+               <!-- Owners Select Field -->
+<div class="mb-3">
+    <label for="owner_id" class="form-label">Owners</label>
+    <select class="form-select" id="owner_id" name="owner_id" required>
+        <option value="">Select Owner</option>
+
+        @if(Auth::user()->hasRole('Super Admin'))
+            {{-- Super Admin can see all owners --}}
+            @foreach($owners as $owner)
+                <option value="{{ $owner->id }}">{{ $owner->name }}</option>
+            @endforeach
+        @else
+            {{-- Other users (e.g., just "Owners" role) only see themselves --}}
+            <option value="{{ Auth::user()->id }}" selected>{{ Auth::user()->name }}</option>
+        @endif
+
+    </select>
+</div>
+
 
                 <!-- Phone Number Input Field -->
                 <div class="mb-3">
@@ -95,9 +104,8 @@
 
                 <!-- Status Select Field -->
                 <div class="mb-3">
-                    <label for="status" class="form-label">Status</label>
+                    <label for="status" class="form-label">Status</label hidden>
                     <select class="form-select" id="status" name="status" required>
-                        <option value="active" selected>Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
                 </div>

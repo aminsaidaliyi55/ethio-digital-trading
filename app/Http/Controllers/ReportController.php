@@ -107,27 +107,41 @@ class ReportController extends Controller
     // Daily report view
     public function indexDaily(Request $request)
     {
+        
+        $user=Auth::user();
         $approvedOrders = $this->getOrdersBasedOnRole($request, 'daily')->paginate(25);
         $totalApprovedPrice = $approvedOrders->sum('total_price');
 
+    if ($user->hasRole('Owners') && $user->is_approved == 0) {
+        return redirect()->route('owner.payment')->with('error', 'You must submit payment and wait for approval before creating a shop.');
+    }
         return view('reports.daily', compact('approvedOrders', 'totalApprovedPrice'));
     }
 
     // Monthly report view
     public function indexMonthly(Request $request)
     {
+        $user=Auth::user();
         $approvedOrders = $this->getOrdersBasedOnRole($request, 'monthly')->paginate(25);
         $totalApprovedPrice = $approvedOrders->sum('total_price');
 
+    if ($user->hasRole('Owners') && $user->is_approved == 0) {
+        return redirect()->route('owner.payment')->with('error', 'You must submit payment and wait for approval before creating a shop.');
+    }
         return view('reports.monthly', compact('approvedOrders', 'totalApprovedPrice'));
     }
 
     // Yearly report view
     public function indexYearly(Request $request)
     {
+
+                $user=Auth::user();
+
         $approvedOrders = $this->getOrdersBasedOnRole($request, 'yearly')->paginate(25);
         $totalApprovedPrice = $approvedOrders->sum('total_price');
-
+ if ($user->hasRole('Owners') && $user->is_approved == 0) {
+        return redirect()->route('owner.payment')->with('error', 'You must submit payment and wait for approval before creating a shop.');
+    }
         return view('reports.yearly', compact('approvedOrders', 'totalApprovedPrice'));
     }
 

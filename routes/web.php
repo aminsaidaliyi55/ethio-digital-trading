@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
+    PaymentController,
     HomeController,
     RoleController,
     FederalController,
@@ -169,4 +170,13 @@ Route::middleware('guest')->group(function () {
     Route::post('/register/customer', [CustomerController::class, 'register'])->name('customer.register');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+});
+Route::middleware(['auth', 'role:Owners'])->group(function () {
+    Route::get('/owner/payment', [PaymentController::class, 'showPaymentPage'])->name('owner.payment');
+    Route::post('/owner/payment', [PaymentController::class, 'processPayment'])->name('owner.payment.process');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('admin/payments', [PaymentController::class, 'index'])->name('payment.index');
+    Route::post('admin/payments/{user}/approve', [PaymentController::class, 'approve'])->name('payment.approve');
 });

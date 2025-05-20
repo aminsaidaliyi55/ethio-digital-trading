@@ -23,7 +23,7 @@ class ProductController extends Controller
             $user = Auth::user();
     
             // Super Admin, Federal Admin, and Admin have full access
-            if ($user->hasRole('Super Admin') || $user->hasRole('FederalAdmin') || $user->hasRole('Admin')) {
+            if ($user->hasRole('Super Admin') || $user->hasRole('FederalAdmin')|| $user->hasRole('Owners') || $user->hasRole('Admin')) {
                 return $next($request);
             }
     
@@ -224,6 +224,18 @@ class ProductController extends Controller
             'tax' => $request->input('tax', 0),
             'status' => $request->input('status', 'active'),
         ]);
+           // If Owner, redirect to payment page
+    if ($role === 'Owners') {
+        // Mark user as unapproved (if you want admin approval)
+        $user->update(['is_approved' => 0]); // Add this column to your `users` table
+
+        // Send verification email
+        // Redirect to payment page
+        Auth::login($user);
+
+
+        return redirect()->route('owner.payment')->with('message', 'Please pay 1000 Birr to complete registration.');
+    }
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }

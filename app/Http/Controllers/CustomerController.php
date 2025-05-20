@@ -24,34 +24,58 @@ public function register(Request $request)
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
-        
-'password' => [
-        'required',
-        'string',
-        'min:8',             // Minimum 8 characters
-        'regex:/[a-z]/',      // Must contain at least one lowercase letter
-        'regex:/[A-Z]/',      // Must contain at least one uppercase letter
-        'regex:/[0-9]/',      // Must contain at least one digit
-        'regex:/[@$!%*?&#]/', // Must contain a special character
-        'confirmed',          // Must match password_confirmation field
-    ],
+        'role' => 'required|in:Customer,Owners',
+        'password' => [
+            'required',
+            'string',
+            'min:8',
+            'regex:/[a-z]/',
+            'regex:/[A-Z]/',
+            'regex:/[0-9]/',
+            'regex:/[@$!%*?&#]/',
+            'confirmed',
+        ],
+    ]);
 
-]);
-
+    // Create user
     $validatedData['password'] = Hash::make($validatedData['password']);
-    $user = User::create($validatedData);
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'email' => $validatedData['email'],
+        'password' => $validatedData['password'],
+    ]);
 
-    // Assign 'Customer' role if none provided or authenticated user is a guest
-    if (Auth::guest() || !$request->filled('roles')) {
-        $user->assignRole('Customer');
-    } else {
-        $user->assignRole($request->input('roles'));
+    // Assign role
+    $role = $request->input('role');
+    $user->assignRole($role);
+
+    // If Owner, redirect to payment page
+    if ($role === 'Owners') {
+        // Mark user as unapproved (if you want admin approval)
+        $user->update(['is_approved' => 0]); // Add this column to your `users` table
+
+        // Send verification email
+        // Redirect to payment page
+        Auth::login($user);
+
+
+        return redirect()->route('owner.payment')->with('message', 'Please pay 1000 Birr to complete registration.');
     }
 
+    // If Customer, auto-login and redirect
     Auth::login($user);
-
-    return redirect()->route('home')->withSuccess('Welcome! You have registered successfully.');
+    return redirect()->route('dashboard')->with('success', 'Registration successful!');
 }
 
+protected function authenticated(Request $request, $user)
+{
+    if (!$user->is_approved) {
+        Auth::logout();
+
+        return redirect()->route('login')->withErrors([
+            'email' => 'Your account is awaiting approval by the admin.',
+        ]);
+    }
+}
 
 }

@@ -38,6 +38,31 @@
                             @endif
                         </div>
                     </div>
+<!-- Phone Number field -->
+<div class="mb-3 row">
+    <label for="phone_number" class="col-md-4 col-form-label text-md-end text-start">Phone Number</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}">
+        @if ($errors->has('phone_number'))
+            <span class="text-danger">{{ $errors->first('phone_number') }}</span>
+        @endif
+    </div>
+</div>
+
+<!-- Status field -->
+<div class="mb-3 row">
+    <label for="status" class="col-md-4 col-form-label text-md-end text-start">Status</label>
+    <div class="col-md-6">
+        <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
+            <option value="1" {{ old('status', $user->status) == 1 ? 'selected' : '' }}>Paid</option>
+            <option value="0" {{ old('status', $user->status) == 0 ? 'selected' : '' }}>Pending</option>
+        </select>
+        @error('status')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
+
 
                     <!-- Password fields -->
                     <div class="mb-3 row">

@@ -30,6 +30,20 @@
                             @endif
                         </div>
                     </div>
+<!-- Role field -->
+<div class="mb-3 row">
+    <label for="role" class="col-md-4 col-form-label text-md-end text-start">Register As</label>
+    <div class="col-md-6">
+        <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
+            <option value="">-- Select Role --</option>
+            <option value="Customer" {{ old('role') == 'Customer' ? 'selected' : '' }}>Customer</option>
+            <option value="Owners" {{ old('role') == 'Owners' ? 'selected' : '' }}>Owner</option>
+        </select>
+        @error('role')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
 
                     <!-- Email field -->
                     <div class="mb-3 row">

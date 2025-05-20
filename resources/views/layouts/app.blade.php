@@ -333,6 +333,17 @@
                 </ul> 
             </li> 
             @endcanany
+@canany(['create-role', 'edit-role', 'delete-role'])
+    <li>
+        <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+            <i class="ri-user-fill"></i> 
+            <span data-translate="true">@lang('messages.Payment')</span>
+        </a>
+        <ul class="sub-menu" aria-expanded="false">
+            <li><a href="{{ route('payment.index') }}">@lang('messages.Payment Management')</a></li>
+        </ul>
+    </li>
+@endcanany
 
             @canany(['create-user', 'edit-user', 'delete-user']) 
             <li>
