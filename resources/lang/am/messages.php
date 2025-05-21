@@ -130,6 +130,8 @@ return [
     'after_payment_instruction' => 'ክፍያ ከፈፀሙ በኋላ ማስረጃ ወይም ስክሪንሻት ያስገቡ።',
     'upload_screenshot_label' => 'የክፍያ ማስረጃ ስክሪንሻት አስገባ (JPG, PNG, ወይም PDF):',
     'submit_for_approval' => 'ለእውቅና አስገባ',
+        'Call Me By This Number'=>  'በዚ ቁጥር ደውልልኝ'
+
 ];
 
 ?>

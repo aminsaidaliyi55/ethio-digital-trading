@@ -11,6 +11,7 @@
             <li><strong>@lang('messages.bank'):</strong> @lang('messages.bank_name')</li>
             <li><strong>@lang('messages.account_number'):</strong> 1000508955905</li>
             <li><strong>@lang('messages.account_name'):</strong> Amin Said Aliyi</li>
+            <li><strong>@lang('messages.Call Me By This Number'):</strong> +251906183147</li>
         </ul>
         @lang('messages.after_payment_instruction')
     </div>

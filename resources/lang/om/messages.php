@@ -128,5 +128,7 @@ return [
 'after_payment_instruction' => 'Kaffaltiin booda, suuraa yookin ragaa kaffaltii olkaa’uun hayyamamuuaf dhiheessi.',
 'upload_screenshot_label' => 'Suuraa Kaffaltii Olkaa\'i (JPG, PNG, yookin PDF):',
 'submit_for_approval' => 'Hayyamamuuuf Ergii',
+        'Call Me By This Number'=>  'Lakkoofsa kanaan Naaf Bilbili'
+
 
 ];

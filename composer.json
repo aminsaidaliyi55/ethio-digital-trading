@@ -57,11 +57,7 @@
         "@php artisan key:generate --ansi"
     ],
     "start": "php artisan serve --host=0.0.0.0 --port=10000"
-},composer update
-git add composer.json composer.lock
-git commit -m "Added start script for Render"
-git push
-
+},
     "extra": {
         "branch-alias": {
             "dev-master": "10.x-dev"
