@@ -3,16 +3,12 @@ services:
     name: ethio-digital-trading
     env: php
     plan: free
-    region: oregon
     buildCommand: |
-      composer install --no-interaction --optimize-autoloader
+      composer install --no-dev --optimize-autoloader
       php artisan key:generate
       php artisan migrate --force
-    startCommand: |
-      php artisan serve --host=0.0.0.0 --port=10000
+    startCommand: php artisan serve --host=0.0.0.0 --port=10000
     envVars:
-      - key: APP_NAME
-        value: "Ethio Digital Trading"
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
@@ -30,7 +26,7 @@ services:
       - key: DB_HOST
         value: dpg-d0kfqiruibrs739gpvsg-a
       - key: DB_PORT
-        value: 5432
+        value: 3306 # Check if this should be 3306 for MySQL
       - key: DB_DATABASE
         value: laravel10role
       - key: DB_USERNAME
