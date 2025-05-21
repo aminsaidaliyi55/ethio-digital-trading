@@ -1,18 +1,15 @@
 services:
   - type: web
     name: ethio-digital-trading
-    env: docker
+    env: php
     plan: free
-    dockerfilePath: ./Dockerfile
-    plan: free
-    ports:
-      - port: 9000
-    buildFilter:
-      paths:
-        - Dockerfile
-        - render.yaml
-        - .env
-        - composer.json
+    region: oregon
+    buildCommand: |
+      composer install --no-interaction --optimize-autoloader
+      php artisan key:generate
+      php artisan migrate --force
+    startCommand: |
+      php artisan serve --host=0.0.0.0 --port=10000
     envVars:
       - key: APP_NAME
         value: "Ethio Digital Trading"
@@ -66,3 +63,5 @@ services:
 
       - key: GOOGLE_TRANSLATE_API_KEY
         value: api-key-abc123XYZ789
+    ports:
+      - port: 10000
